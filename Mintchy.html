@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mintchyy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Taviraj:ital,wght@0,300;0,500;0,600;1,400&family=Sarabun:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-deep:#12281f;
+    --bg-deep2:#1c3e2f;
+    --mint-light:#bfead2;
+    --mint-glow:#7fd9ae;
+    --cream:#f5f0e2;
+    --gold:#d8c26a;
+    --muted:#8fb39e;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg-deep);
+    color:var(--cream);
+    font-family:'Sarabun', sans-serif;
+    font-weight:300;
+    overflow-x:hidden;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
+  }
+
+  /* ambient background leaves */
+  .ambient{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background:
+      radial-gradient(ellipse 60% 40% at 15% 10%, rgba(127,217,174,0.10), transparent 60%),
+      radial-gradient(ellipse 50% 50% at 85% 80%, rgba(216,194,106,0.07), transparent 60%),
+      linear-gradient(180deg, var(--bg-deep) 0%, var(--bg-deep2) 55%, var(--bg-deep) 100%);
+  }
+
+  section{
+    position:relative; z-index:1;
+    min-height:100vh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:6vh 6vw;
+    text-align:center;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero-eyebrow{
+    font-size:0.85rem;
+    letter-spacing:0.35em;
+    color:var(--muted);
+    text-transform:uppercase;
+    margin-bottom:1.4rem;
+    opacity:0;
+    animation:fadeUp 1.2s ease forwards 0.3s;
+  }
+  .hero-title{
+    font-family:'Taviraj', serif;
+    font-weight:600;
+    font-size:clamp(3.2rem, 12vw, 7rem);
+    color:var(--cream);
+    line-height:1.05;
+    opacity:0;
+    animation:fadeUp 1.4s ease forwards 0.6s;
+  }
+  .hero-title .accent{
+    color:var(--mint-glow);
+    font-style:italic;
+    font-weight:400;
+  }
+  .hero-sub{
+    margin-top:1.6rem;
+    font-size:1.05rem;
+    color:var(--mint-light);
+    font-weight:300;
+    max-width:30ch;
+    opacity:0;
+    animation:fadeUp 1.4s ease forwards 1s;
+  }
+  @keyframes fadeUp{
+    from{opacity:0; transform:translateY(18px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+
+  .scroll-cue{
+    position:absolute; bottom:6vh; left:50%; transform:translateX(-50%);
+    display:flex; flex-direction:column; align-items:center; gap:0.6rem;
+    opacity:0;
+    animation:fadeUp 1s ease forwards 1.8s;
+  }
+  .scroll-cue span{font-size:0.7rem; letter-spacing:0.2em; color:var(--muted); text-transform:uppercase;}
+  .scroll-cue .line{
+    width:1px; height:36px;
+    background:linear-gradient(var(--mint-glow), transparent);
+    animation:pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{opacity:0.3;}
+    50%{opacity:1;}
+  }
+
+  /* floating leaf svgs in hero */
+  .leaf-float{
+    position:absolute;
+    opacity:0.5;
+    animation:drift 9s ease-in-out infinite;
+  }
+  @keyframes drift{
+    0%,100%{transform:translateY(0) rotate(0deg);}
+    50%{transform:translateY(-22px) rotate(6deg);}
+  }
+
+  /* ---------- LETTER ---------- */
+  .letter-wrap{
+    max-width:640px;
+  }
+  .letter-eyebrow{
+    font-family:'Taviraj', serif;
+    font-style:italic;
+    font-size:1.1rem;
+    color:var(--gold);
+    margin-bottom:2rem;
+    letter-spacing:0.05em;
+  }
+  .letter-body p{
+    font-size:clamp(1.05rem, 2.4vw, 1.35rem);
+    line-height:2;
+    color:var(--cream);
+    font-weight:300;
+    margin-bottom:1.6rem;
+    opacity:0;
+    transform:translateY(16px);
+    transition:opacity 0.9s ease, transform 0.9s ease;
+  }
+  .letter-body p.visible{opacity:1; transform:translateY(0);}
+  .letter-body .highlight{
+    font-family:'Taviraj', serif;
+    font-style:italic;
+    color:var(--mint-glow);
+    font-size:1.15em;
+  }
+  .signature{
+    margin-top:3rem;
+    font-family:'Taviraj', serif;
+    font-size:1.3rem;
+    color:var(--mint-light);
+    opacity:0;
+    transform:translateY(16px);
+    transition:opacity 0.9s ease, transform 0.9s ease;
+  }
+  .signature.visible{opacity:1; transform:translateY(0);}
+
+  /* ---------- SPRIG / GROWTH ---------- */
+  .sprig-section{
+    gap:2rem;
+  }
+  .sprig-title{
+    font-family:'Taviraj', serif;
+    font-weight:500;
+    font-size:clamp(1.6rem, 4vw, 2.3rem);
+    color:var(--cream);
+    max-width:20ch;
+    margin-bottom:0.5rem;
+  }
+  .sprig-title .accent{color:var(--mint-glow); font-style:italic;}
+  .sprig-note{
+    color:var(--muted);
+    font-size:0.95rem;
+    margin-bottom:2rem;
+  }
+
+  .sprig-svg{width:min(70vw, 260px); height:auto;}
+  .sprig-leaf{
+    opacity:0;
+    transform-origin:bottom center;
+    transform:scale(0.3);
+    transition:opacity 0.7s ease, transform 0.7s cubic-bezier(.34,1.56,.64,1);
+  }
+  .sprig-leaf.grown{opacity:1; transform:scale(1);}
+  .sprig-stem{
+    stroke-dasharray:200;
+    stroke-dashoffset:200;
+    transition:stroke-dashoffset 1.4s ease;
+  }
+  .sprig-stem.grown{stroke-dashoffset:0;}
+
+  /* ---------- ANSWER ---------- */
+  .answer-title{
+    font-family:'Taviraj', serif;
+    font-weight:500;
+    font-size:clamp(1.6rem, 4.5vw, 2.4rem);
+    margin-bottom:2.4rem;
+    max-width:22ch;
+  }
+  .answer-title .accent{color:var(--gold); font-style:italic;}
+  .btn-row{
+    display:flex; gap:1.2rem; flex-wrap:wrap; justify-content:center;
+  }
+  .btn{
+    font-family:'Sarabun', sans-serif;
+    font-size:1rem;
+    padding:0.95rem 2.2rem;
+    border-radius:100px;
+    border:1px solid var(--mint-glow);
+    background:transparent;
+    color:var(--mint-light);
+    cursor:pointer;
+    transition:transform 0.25s ease, background 0.25s ease, color 0.25s ease;
+    letter-spacing:0.02em;
+  }
+  .btn.primary{
+    background:var(--mint-glow);
+    color:var(--bg-deep);
+    font-weight:500;
+    border-color:var(--mint-glow);
+  }
+  .btn:hover{transform:translateY(-2px);}
+  .btn.primary:hover{background:var(--mint-light);}
+
+  .answer-response{
+    margin-top:2.2rem;
+    font-family:'Taviraj', serif;
+    font-style:italic;
+    font-size:1.2rem;
+    color:var(--mint-glow);
+    min-height:1.6em;
+    opacity:0;
+    transition:opacity 0.6s ease;
+  }
+  .answer-response.show{opacity:1;}
+
+  footer{
+    text-align:center;
+    padding:3rem 1rem 2.5rem;
+    color:var(--muted);
+    font-size:0.8rem;
+    letter-spacing:0.08em;
+  }
+</style>
+</head>
+<body>
+
+<div class="ambient"></div>
+
+<!-- HERO -->
+<section id="hero">
+  <svg class="leaf-float" style="top:14%; left:10%; width:46px;" viewBox="0 0 40 60"><path d="M20 2 C34 14 34 40 20 58 C6 40 6 14 20 2 Z" fill="none" stroke="#7fd9ae" stroke-width="1.4"/><path d="M20 6 V54" stroke="#7fd9ae" stroke-width="1"/></svg>
+  <svg class="leaf-float" style="bottom:16%; right:12%; width:34px; animation-delay:2s;" viewBox="0 0 40 60"><path d="M20 2 C34 14 34 40 20 58 C6 40 6 14 20 2 Z" fill="none" stroke="#d8c26a" stroke-width="1.4"/><path d="M20 6 V54" stroke="#d8c26a" stroke-width="1"/></svg>
+  <svg class="leaf-float" style="top:60%; left:6%; width:26px; animation-delay:4s;" viewBox="0 0 40 60"><path d="M20 2 C34 14 34 40 20 58 C6 40 6 14 20 2 Z" fill="none" stroke="#bfead2" stroke-width="1.2"/></svg>
+
+  <div class="hero-eyebrow">To</div>
+  <h1 class="hero-title">Mintchy<span class="accent">,</span></h1>
+  <p class="hero-sub">มีเรื่องอยากบอก... เลื่อนลงไปอ่านหน่อยนะ</p>
+
+  <div class="scroll-cue">
+    <div class="line"></div>
+    <span>เลื่อนลง</span>
+  </div>
+</section>
+
+<!-- LETTER -->
+<section id="letter">
+  <div class="letter-wrap">
+    <div class="letter-eyebrow">มีเรื่องอยากบอก...</div>
+    <div class="letter-body">
+      <p>ไม่ได้มีอะไรพิเศษ แค่จู่ๆ ก็อยากบอกมิ้นท์เฉยๆ</p>
+      <p><span class="highlight">รักนะคับจุ๊บๆ</span> เป็นห่วงแต่ช่วงนี้เราก็งานเยอะะ เลยทำเว็บเล่นๆไว้ให้อ่านแก้เบื่อนะะ</p>
+      <p>ขอให้หายไข้ไวๆ นะคับบ</p>
+    </div>
+    <div class="signature">— จาก Tap :p</div>
+  </div>
+</section>
+
+<!-- SPRIG GROWTH -->
+<section class="sprig-section" id="sprig">
+  <p class="sprig-title">ความรักนี้ก็เหมือนต้นไม้เล็กๆ<br><span class="accent">ที่ยังโตขึ้นทุกวัน</span></p>
+  <p class="sprig-note">(เลื่อนมาถึงตรงนี้ ให้มันโตให้ดูหน่อย)</p>
+
+  <svg class="sprig-svg" id="sprigSvg" viewBox="0 0 200 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path class="sprig-stem" id="stem" d="M100 250 C 100 190, 100 140, 100 60" stroke="#7fd9ae" stroke-width="3" stroke-linecap="round"/>
+    <g class="sprig-leaf" id="leaf1" style="transform-origin:70px 200px;">
+      <path d="M100 200 C 60 190, 40 160, 55 130 C 90 140, 105 170, 100 200 Z" fill="#7fd9ae" opacity="0.9"/>
+    </g>
+    <g class="sprig-leaf" id="leaf2" style="transform-origin:130px 165px;">
+      <path d="M100 165 C 140 155, 160 125, 145 95 C 110 105, 95 135, 100 165 Z" fill="#bfead2" opacity="0.9"/>
+    </g>
+    <g class="sprig-leaf" id="leaf3" style="transform-origin:65px 125px;">
+      <path d="M100 125 C 60 115, 40 85, 55 55 C 90 65, 105 95, 100 125 Z" fill="#7fd9ae" opacity="0.85"/>
+    </g>
+    <g class="sprig-leaf" id="leaf4" style="transform-origin:100px 60px;">
+      <ellipse cx="100" cy="48" rx="14" ry="20" fill="#d8c26a" opacity="0.9"/>
+    </g>
+  </svg>
+</section>
+
+<!-- ANSWER -->
+<section id="ask">
+  <p class="answer-title">แล้ววันนี้มิ้นท์...<br><span class="accent">คิดถึงเราบ้างไหม?</span></p>
+  <div class="btn-row">
+    <button class="btn primary" onclick="respond('yes')">คิดถึงเหมือนกัน 🌿</button>
+    <button class="btn" onclick="respond('think')">แอบคิดถึงนิดหน่อย</button>
+  </div>
+  <div class="answer-response" id="resp"></div>
+</section>
+
+<footer>ทำด้วยใจ สำหรับคนเดียวของป๋ม</footer>
+
+<script>
+  // scroll-reveal for letter paragraphs & signature
+  const revealEls = document.querySelectorAll('.letter-body p, .signature');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('visible'); }
+    });
+  }, {threshold:0.4});
+  revealEls.forEach(el=>io.observe(el));
+
+  // sprig growth triggered on scroll into view
+  let sprigGrown = false;
+  const sprigSection = document.getElementById('sprig');
+  const sprigIo = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting && !sprigGrown){
+        sprigGrown = true;
+        document.getElementById('stem').classList.add('grown');
+        const leaves = ['leaf1','leaf2','leaf3','leaf4'];
+        leaves.forEach((id, i)=>{
+          setTimeout(()=>{
+            document.getElementById(id).classList.add('grown');
+          }, 500 + i*350);
+        });
+      }
+    });
+  }, {threshold:0.5});
+  sprigIo.observe(sprigSection);
+
+  function respond(kind){
+    const el = document.getElementById('resp');
+    if(kind === 'yes'){
+      el.textContent = 'เย้ คิดถึงมิ้นท์เหมือนกันนะะ';
+    } else {
+      el.textContent = 'แค่นิดหน่อยก็ดีใจแย้ว 😊';
+    }
+    el.classList.remove('show');
+    void el.offsetWidth;
+    el.classList.add('show');
+  }
+</script>
+
+</body>
+</html>
